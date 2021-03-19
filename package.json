@@ -1,0 +1,30 @@
+{
+  "name": "tech-blog-project",
+  "version": "1.0.0",
+  "description": "mvc framework tech blog application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frank-merk/14-MVC-Tech-Blog.git"
+  },
+  "author": "Frank Merchlewitz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frank-merk/14-MVC-Tech-Blog/issues"
+  },
+  "homepage": "https://github.com/frank-merk/14-MVC-Tech-Blog#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "connect-session-sequelize": "^7.1.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.1",
+    "express-session": "^1.17.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.1"
+  }
+}
