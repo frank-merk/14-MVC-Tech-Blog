@@ -5,14 +5,14 @@ const newPost = async (event) => {
     const description = document.querySelector('#description').value.trim();
   
     if (title && description) {
-      const response = await fetch(`/api/post`, {
+      const response = await fetch(`/api/posts`, {
         method: 'POST',
         body: JSON.stringify({ title, description }),
         headers: { 'Content-Type': 'application/json' },
       });
   
       if (response.ok) {
-        document.location.append('post');
+        document.location.replace('dashboard');
       } else {
         alert('Failed to create new post');
       }
@@ -20,15 +20,18 @@ const newPost = async (event) => {
   };
 
   const deleteFunction = async (event) => {
-    if (event.target.hasAttribute('data-id')) {
-      const id = event.target.getAttribute('data-id');
+    if (event.target.hasAttribute('id')) {
+      const id = event.target.getAttribute('id');
   
-      const response = await fetch(`/api/blog/${id}`, {
+      const response = await fetch(`/api/posts/${id}`, {
         method: 'DELETE',
+        body: JSON.stringify({
+          id: id
+        })
       });
 
       if (response.ok) {
-        document.location.replace('/blog');
+        document.location.replace('/dashboard');
       } else {
         alert('Failed to delete project');
       }
@@ -42,6 +45,6 @@ const newPost = async (event) => {
     .addEventListener('submit', newPost);
   
   document
-    .querySelector('.post-list')
+    .querySelector('.delete-btn')
     .addEventListener('click', deleteFunction);
   
