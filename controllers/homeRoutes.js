@@ -32,4 +32,39 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
+router.get('/posts', (req, res) => {
+  res.render('posts')
+})
+
+router.get('/posts/:id', async (req, res) => {
+
+  try {
+    // TODO: Add a comment describing the functionality of this expression
+    const postData = await Post.findOne({
+       where: { 
+         id: req.params.id 
+        },
+      attributes: ['id', 'title', 'description', 'createdDate'],
+    include: [
+      { model: User, attributes: ['name']},
+    ] });
+
+    if (!postData) {
+      res
+        .status(400)
+        .json({ message: 'No post with this ID' });
+      return;
+    }
+    const post = postData.get({ plain: true });
+    res.render('post-with-id', { post, loggedIn: req.session.loggedIn })
+
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+  
+
+
+
+
 module.exports = router;

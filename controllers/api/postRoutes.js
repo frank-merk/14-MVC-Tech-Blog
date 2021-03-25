@@ -14,12 +14,12 @@ router.get('/', async (req, res) => {
   order: [
     ['createdDate', 'DESC']
   ],
-  includ: [{
+  include: [{
     model: User,
     attributes: ['name']
   }]
   })
-  res.status(200).json(postData);
+  res.json(postData);
 } catch {
   res.status(500).json(err);
 }
@@ -46,7 +46,7 @@ router.get('/:id', async (req, res) => {
       return;
     }
 
-    res.status(200).json(postData);
+    res.json(postData);
 
   } catch (err) {
     res.status(400).json(err);
