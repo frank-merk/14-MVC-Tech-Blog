@@ -32,8 +32,8 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
-router.get('/posts', (req, res) => {
-  res.render('posts')
+router.get('/dashboard', (req, res) => {
+  res.render('dashboard')
 })
 
 router.get('/posts/:id', async (req, res) => {
