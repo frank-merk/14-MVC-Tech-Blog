@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { User, Post } = require('../../models');
+const sequelize = require('../../config/connection');
+const withAuth = require('../../utils/auth');
 
 
 router.get('/', async (req, res) => {
@@ -51,19 +53,38 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const postData = await Post.update({
+    title: req.body.title,
+    description: req.body.description
+  }, {
+    where: {
+      id: req.params.id
+    }
+  })
+  if(!postData) {
+    res.status(404).json({ message: 'No post matching this id' });
+    return;
+  }
+  res.status(200).json(dbPostData);
+} catch (err) {
+  res.status(400).json(err);
+  }
+});
 
-// router.post('/', async (req, res) => {
-//   try {
-//     const newPost = await Post.create({
-//       ...req.body,
-//       user_id: req.session.user_id,
-//     });
+router.post('/', async (req, res) => {
+  try {
+    const newPost = await Post.create({
+      ...req.body,
+      user_id: req.session.user_id,
+    });
 
-//     res.status(200).json(newPost);
-//   } catch (err) {
-//     res.status(400).json(err);
-//   }
-// });
+    res.status(200).json(newPost);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 
 
