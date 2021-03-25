@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const { User, Post } = require('../../models');
 
-router.post('/posts', async (req, res) => {
+router.post('/:id', async (req, res) => {
   try {
     // TODO: Add a comment describing the functionality of this expression
-    const userData = await User.findOne({ where: { email: req.body.email } });
+    const postData = await User.findOne({ where: { id: req.params.id } });
 
     if (!userData) {
       res
