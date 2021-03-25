@@ -5,7 +5,12 @@ const withAuth = require('../utils/auth');
 // TODO: Add a comment describing the functionality of the withAuth middleware
 router.get('/', withAuth, async (req, res) => {
   try {
-    const postData = await Post.findAll();
+    const postData = await Post.findAll({
+      include: [{ model: User,
+                  attributes: ["name"] }],
+    });
+
+    console.log(postData[0].user);
 
     const posts = postData.map((project) => project.get({ plain: true }));
 
