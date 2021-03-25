@@ -11,24 +11,23 @@
 
 <body>
   <nav>
-    <a href="/">Home</a>
+    <ul id="list-nav">
+    <li><a href="/">Home</a></li>
         {{#if logged_in}}
-        <a href="/post">Posts</a> |
-        <button class="no-button" id="logout">Logout</button>
+        <li><a href="/api/posts">Posts</a></li>
+        <li><button id="logout">Logout</button></li>
         {{else}}
-        <a href="/login">Login</a>
+        <li><a href="/login">Login</a></li>
         {{/if}}
+      </ul>
   </nav>
     <header>
-    <h1>Welcome to the Tech Blog!</h1>
+    <h1>MVC Tech Blog</h1>
   </header>
   <main>
-    <aside>
-      <h2>Enjoy the technology insights</h2>
-    </aside>
-    <div class="blog">
+
       {{{body}}}
-    </div>
+
   </main>
   <footer>
 
