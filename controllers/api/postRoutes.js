@@ -50,7 +50,7 @@ router.get('/:id', async (req, res) => {
     res.json(postData);
 
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 

@@ -1,5 +1,69 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Post, Comment } = require('../../models');
+const sequelize = require('../../config/connection');
+const withAuth = require('../../utils/auth');
+
+router.get('/', async (req, res) => {
+  try {
+  const userData = await User.findAll({
+    attributes: { exclude: '[password]' }
+})
+  res.json(userData);
+} catch {
+  res.status(500).json(err);
+}
+})
+
+router.get('/:id', async (req, res) => {
+  try {
+    const userData = await User.findOne({
+      attributes: {exclude: '[password]' },
+      where: {
+        id: req.params.id
+      },
+
+      
+      
+        include: [{
+          model: Post,
+          attributes: [
+            'id',
+            'title',
+            'description',
+            'createdDate'
+          ],
+          include: [{
+            model: Comment,
+            attributes: [
+              'id',
+              'text',
+              'post_id'
+            ],
+            include: [{
+              model: Post,
+              attributes: [
+                'title'
+              ]
+            }]
+              
+    
+            }],
+        }],
+     
+    })
+    if (!userData) {
+      res
+        .status(400)
+        .json({ message: 'No user with this ID' });
+      return;
+    }
+
+    res.json(userData);
+
+  } catch (err) {
+    res.status(400).json(err);
+  }
+})
 
 router.post('/signup', async (req, res) => {
   try {
