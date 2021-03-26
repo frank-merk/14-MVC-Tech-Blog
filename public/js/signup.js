@@ -3,13 +3,15 @@
 const signUpFunction = async (event) => {
     event.preventDefault();
 
+    const name = document.querySelector('#new-name').value.trim();
     const email = document.querySelector('#new-email').value.trim();
     const password = document.querySelector('#new-password').value.trim();
   
-    if (email && password) {
+    if (name && email && password) {
       const response = await fetch('/api/users/signup', {
         method: 'POST',
         body: JSON.stringify({
+          name,
           email,
           password
         }),
