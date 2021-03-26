@@ -16,7 +16,7 @@ router.get('/', withAuth, async (req, res) => {
             ],
             include: [{
                     model: Comment,
-                    attributes: ['id', 'text', 'post_id', 'user_id', 'createdDate'],
+                    attributes: ['id', 'text', 'post_id', 'user_id'],
                     include: {
                         model: User,
                         attributes: ['name']
@@ -29,7 +29,7 @@ router.get('/', withAuth, async (req, res) => {
             ]
         });
             const posts = postData.map(post => post.get({ plain: true }));
-            res.render('dashboard', { posts, loggedIn: true });
+            res.render('dashboard', { posts, logged_in: true });
         } catch {
             res.status(500).json(err);
         };
@@ -49,7 +49,7 @@ router.get('/edit/:id', withAuth, async (req, res) => {
             ],
             include: [{
                     model: Comment,
-                    attributes: ['id', 'text', 'post_id', 'user_id', 'createdDate'],
+                    attributes: ['id', 'text', 'post_id', 'user_id'],
                     include: {
                         model: User,
                         attributes: ['name']
@@ -68,7 +68,7 @@ router.get('/edit/:id', withAuth, async (req, res) => {
             return;
             }
             const post = postData.get({ plain: true });
-            res.render('edit', { post, loggedIn: true });
+            res.render('edit', { post, logged_in: true });
     } catch {
         res.status(400).json(err);
     }

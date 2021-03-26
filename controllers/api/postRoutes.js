@@ -5,7 +5,7 @@ const withAuth = require('../../utils/auth');
 
 
 
-router.get('/', async (req, res) => {
+router.get('/', withAuth, async (req, res) => {
   try {
   const postData = await Post.findAll({
     attributes: ['id',
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', withAuth, async (req, res) => {
   try {
     // TODO: Add a comment describing the functionality of this expression
     const postData = await Post.findOne({
@@ -52,7 +52,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.update({
     title: req.body.title,

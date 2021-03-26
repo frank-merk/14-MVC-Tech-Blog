@@ -1,16 +1,26 @@
 const router = require('express').Router();
-const { User, Post } = require('../models');
+const { User, Post, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 // TODO: Add a comment describing the functionality of the withAuth middleware
 router.get('/', withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
-      include: [{ model: User,
-                  attributes: ["name"] }],
-    });
+      
+      include: [{
+        model: Comment,
+        attributes: ['id', 'text', 'post_id', 'user_id'],
+        include: {
+            model: User,
+            attributes: ['name']
+        }
+    },
+    {   
+        model: User,
+        attributes: ["name"]
 
-    console.log(postData[0].user);
+    }]});
+
 
     const posts = postData.map((project) => project.get({ plain: true }));
 
@@ -32,7 +42,7 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', withAuth, (req, res) => {
   res.render('dashboard')
 })
 
@@ -40,7 +50,7 @@ router.get('/signup', (req, res) => {
   res.render('sign-up');
 });
 
-router.get('/posts/:id', async (req, res) => {
+router.get('/posts/:id', withAuth, async (req, res) => {
 
   try {
     // TODO: Add a comment describing the functionality of this expression
@@ -49,9 +59,20 @@ router.get('/posts/:id', async (req, res) => {
          id: req.params.id 
         },
       attributes: ['id', 'title', 'description', 'createdDate'],
-    include: [
-      { model: User, attributes: ['name']},
-    ] });
+    include: [{
+      model: Comment,
+      attributes: ['id', 'text', 'post_id', 'user_id'],
+      include: {
+          model: User,
+          attributes: ['name']
+      }
+  },
+  {
+      model: User,
+      attributes: ['name']
+  }
+]
+});
 
     if (!postData) {
       res
@@ -60,7 +81,45 @@ router.get('/posts/:id', async (req, res) => {
       return;
     }
     const post = postData.get({ plain: true });
-    res.render('post-with-id', { post, loggedIn: req.session.loggedIn })
+    res.render('post-with-id', { post, logged_in: req.session.logged_in })
+
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get('/post-comments', withAuth, async (req, res) => {
+
+  try {
+    // TODO: Add a comment describing the functionality of this expression
+    const postData = await Post.findOne({
+       where: { 
+         id: req.params.id 
+        },
+      attributes: ['id', 'title', 'description', 'createdDate'],
+    include: [{
+      model: Comment,
+      attributes: ['id', 'text', 'post_id', 'user_id'],
+      include: {
+          model: User,
+          attributes: ['name']
+      }
+  },
+  {
+      model: User,
+      attributes: ['name']
+  }
+]
+});
+
+    if (!postData) {
+      res
+        .status(400)
+        .json({ message: 'No post with this ID' });
+      return;
+    }
+    const post = postData.get({ plain: true });
+    res.render('post-comments', { post, logged_in: req.session.logged_in })
 
   } catch (err) {
     res.status(500).json(err);
