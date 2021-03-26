@@ -38,7 +38,6 @@ Post.init(
         updatedDate: {
             type: DataTypes.DATE,
             defaultValue: Sequelize.fn('now'),
-            allowNull: false
         },
         
     },

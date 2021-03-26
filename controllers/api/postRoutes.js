@@ -26,8 +26,6 @@ router.get('/', async (req, res) => {
 }
 })
 
-
-
 router.get('/:id', async (req, res) => {
   try {
     // TODO: Add a comment describing the functionality of this expression
@@ -74,10 +72,11 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
-      ...req.body,
+      title: req.body.title,
+      description: req.body.description,
       user_id: req.session.user_id,
     });
 
@@ -89,7 +88,7 @@ router.post('/', async (req, res) => {
 
 
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.destroy({
       where: {
