@@ -36,6 +36,10 @@ router.get('/dashboard', (req, res) => {
   res.render('dashboard')
 })
 
+router.get('/signup', (req, res) => {
+  res.render('sign-up');
+});
+
 router.get('/posts/:id', async (req, res) => {
 
   try {

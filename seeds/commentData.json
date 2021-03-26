@@ -1,0 +1,17 @@
+[
+    {
+      "text": "Baby's first comment",
+      "user_id": 1,
+      "post_id": 1
+    },
+    {
+        "text": "I'm User number 3!",
+        "user_id": 3,
+        "post_id": 3
+      },
+      {
+        "text": "I'm user number 2!",
+        "user_id": 2,
+        "post_id": 2
+      }
+]

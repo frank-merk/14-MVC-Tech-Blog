@@ -4,6 +4,7 @@ const sequelize = require('../../config/connection');
 const withAuth = require('../../utils/auth');
 
 
+
 router.get('/', async (req, res) => {
   try {
   const postData = await Post.findAll({
